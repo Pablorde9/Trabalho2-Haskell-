@@ -40,4 +40,17 @@ validarRemocao id lista = do
 removerLivro :: Int -> [Livro] -> [Livro]
 removerLivro id = filter (\l -> idLivro l /= id) --filter para remover os livros com mesmo id
 
+-- Filtra livros por autor 
+filtrarPorAutor :: String -> [Livro] -> [Livro]
+filtrarPorAutor autorBusca = filter (\livro -> autor livro == autorBusca)
+
+--Filtra livros por ano
+filtrarPorAno :: Integer -> [Livro] -> [Livro]
+filtrarPorAno anoBusca = filter (\livro -> ano livro == anoBusca)
+
+--Filtra livros por titulo 
+filtrarPorTitulo :: String -> [Livro] -> [Livro]
+filtrarPorTitulo tituloBusca = filter (\livro -> titulo livro == tituloBusca)
+
+
 
