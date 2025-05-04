@@ -29,6 +29,18 @@ adicionarLivro livro lista_livros =
 
 -- "na arte bem sexy, pode crer q eu esculacho, faço tudo que ele gosta pra ele eu fico de cabeça para baixo"
 
+--remove um livro da lista
+removerLivro :: Livro -> [Livro] -> IO [Livro]
+removerLivro idLivro lista_livros = do
+    if not (idPertenceLista idLivro lista_livros)
+    --verifica se o id do livro fornecido pertence a lista 
+       then do
+            putStrLn "Erro! o id do livro nao foi encontrado"
+            return lista_livros
+        else do
+            putStrLn "Livro removido com sucesso mano"
+            return (filter (\l -> idLivro /= idLivro) lista_livros)
+
 
 
 
