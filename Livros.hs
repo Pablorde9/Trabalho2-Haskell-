@@ -75,16 +75,28 @@ emailExiste emailDado = any (\u -> email u == emailDado)
 validarAdicaoUsuario :: Usuario -> [Usuario] -> IO ()
 validarAdicaoUsuario usuario lista = do
     if matriculaPertenceLista usuario lista
-        then putStrLn "Erro! Matrícula já cadastrada."
+        then putStrLn "Erro! Matricula ja cadastrada."
     else if emailExiste (email usuario) lista
-        then putStrLn "Erro! Email já cadastrado."
-        else putStrLn "Usuário validado com sucesso!"
+        then putStrLn "Erro! Email ja cadastrado."
+        else putStrLn "Usuario adicionado com sucesso!"
 
 --adiciona um usuario se a matricula for unica
 adicionarUsuario :: Usuario -> [Usuario] -> [Usuario]
 adicionarUsuario usuario lista
     | matriculaPertenceLista usuario lista = lista
     | otherwise = usuario : lista
+
+--valida a remocao de um usuario
+validarRemocaoUsuario :: String -> [Usuario] -> IO ()
+validarRemocaoUsuario mat lista = do
+    if matriculaExiste mat lista
+        then putStrLn "Usuario encontrado e removido"
+        else putStrLn "Erro! Usuario nao encontrado."
+
+--remove um usuario da lista pela matricula dele
+removerUsuario :: String -> [Usuario] -> [Usuario]
+removerUsuario mat = filter (\u -> matricula u /= mat)
+
 
 
 
