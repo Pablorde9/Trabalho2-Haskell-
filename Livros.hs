@@ -53,5 +53,29 @@ filtrarPorAno anoBusca = filter (\livro -> ano livro == anoBusca)
 filtrarPorTitulo :: String -> [Livro] -> [Livro]
 filtrarPorTitulo tituloBusca = filter (\livro -> titulo livro == tituloBusca)
 
+-- FUNCOES DE CADASTRO DE USUARIO
+
+--todas as matriculas dos usuarios
+todasMatriculas :: [Usuario] -> [String]
+todasMatriculas = map matricula
+
+--verifica se um usuario esta na lista pela matricula
+matriculaPertenceLista :: Usuario -> [Usuario] -> Bool
+matriculaPertenceLista usuario = elem (matricula usuario) . todasMatriculas
+
+--verifica se uma matricula existe na lista
+matriculaExiste :: String -> [Usuario] -> Bool
+matriculaExiste mat = any (\u -> matricula u == mat)
+
+-- verifica se um email existe na lista
+emailExiste :: String -> [Usuario] -> Bool
+emailExiste emailDado = any (\u -> email u == emailDado)
+
+--adiciona um usuario se a matricula for unica
+adicionarUsuario :: Usuario -> [Usuario] -> [Usuario]
+adicionarUsuario usuario lista
+    | matriculaPertenceLista usuario lista = lista
+    | otherwise = usuario : lista
+
 
 
