@@ -35,8 +35,8 @@ adicionarLivro livro lista_livros =
 --remove um livro da lista
 removerLivro :: Int -> [Livro] -> ResultadoLivro
 removerLivro id listaLivros
-    | any (\l -> idLivro l == id) listaLivros = Sucesso (filter (\l -> idLivro l /= id) listaLivros)
-    | otherwise = Erro "Livro não encontrado"
+    | any (\l -> idLivro l == id) listaLivros = Sucesso (filter (\l -> idLivro l /= id) listaLivros) --verifica se o id na lista existe
+    | otherwise = Erro "Livro não encontrado" --se o id n existir na lista retorna caso de erro
 
 
 
