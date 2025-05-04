@@ -3,9 +3,6 @@ module Livros where
 import Tipos
 -- Funcoes de cadastro de livros:
 
---funcao para retornar string em casos de erro
-data ResultadoLivro = Sucesso [Livro] | Erro String
-
 -- funcao auxiliar que retorna a lista de todos os ids de uma lista
 todosIds :: [Livro] -> [Int] 
 todosIds lista_livros = map idLivro lista_livros
@@ -13,7 +10,7 @@ todosIds lista_livros = map idLivro lista_livros
 
 --checa se o id de um livro ja pertence a uma lista
 idPertenceLista :: Livro -> [Livro] -> Bool
-idPertenceLista livro lista_livros = (elem (idLivro livros) (todosIds lista_livros)) 
+idPertenceLista livro lista_livros = (elem (idLivro livro) (todosIds lista_livros)) 
 
 
 -- Imprime uma mensagem dizendo se a adicao de livro na lista foi bem sucedida ou nao
@@ -29,16 +26,6 @@ adicionarLivro livro lista_livros =
      if (idPertenceLista livro lista_livros) -- compara se o id do novo livro ja pertence a lista
        then lista_livros -- se o id do novo livro ja existir na lista, retorna a mesma lista
        else (livro : lista_livros) -- coloca a novo livro no comeco da lista de livros
-
--- "na arte bem sexy, pode crer q eu esculacho, faço tudo que ele gosta pra ele eu fico de cabeça para baixo"
-
---remove um livro da lista
-removerLivro :: Int -> [Livro] -> ResultadoLivro
-removerLivro id listaLivros
-    | any (\l -> idLivro l == id) listaLivros = Sucesso (filter (\l -> idLivro l /= id) listaLivros) --verifica se o id na lista existe
-    | otherwise = Erro "Livro não encontrado" --se o id n existir na lista retorna caso de erro
-
-
 
 
 
