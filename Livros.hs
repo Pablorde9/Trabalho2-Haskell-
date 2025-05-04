@@ -10,7 +10,7 @@ todosIds lista_livros = map idLivro lista_livros
 
 --checa se o id de um livro ja pertence a uma lista
 idPertenceLista :: Livro -> [Livro] -> Bool
-idPertenceLista livro lista_livros = (elem (idLivro livro) (todosIds lista_livro)) 
+idPertenceLista livro lista_livros = (elem (idLivro livros) (todosIds lista_livros)) 
 
 
 -- Imprime uma mensagem dizendo se a adicao de livro na lista foi bem sucedida ou nao
@@ -23,10 +23,11 @@ validarAdicao livro lista_livros = do
 -- adiciona elementos a lista
 adicionarLivro :: Livro -> [Livro] -> [Livro]
 adicionarLivro livro lista_livros = 
-     if (idPertenceLista livro lista_livors) -- compara se o id do novo livro ja pertence a lista
+     if (idPertenceLista livro lista_livros) -- compara se o id do novo livro ja pertence a lista
        then lista_livros -- se o id do novo livro ja existir na lista, retorna a mesma lista
        else (livro : lista_livros) -- coloca a novo livro no comeco da lista de livros
 
+-- "na arte bem sexy, pode crer q eu esculacho, faço tudo que ele gosta pra ele eu fico de cabeça para baixo"
 
 
 
