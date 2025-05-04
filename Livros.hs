@@ -3,6 +3,9 @@ module Livros where
 import Tipos
 -- Funcoes de cadastro de livros:
 
+--funcao para retornar string em casos de erro
+data ResultadoLivro = Sucesso [Livro] | Erro String
+
 -- funcao auxiliar que retorna a lista de todos os ids de uma lista
 todosIds :: [Livro] -> [Int] 
 todosIds lista_livros = map idLivro lista_livros
@@ -30,16 +33,11 @@ adicionarLivro livro lista_livros =
 -- "na arte bem sexy, pode crer q eu esculacho, faço tudo que ele gosta pra ele eu fico de cabeça para baixo"
 
 --remove um livro da lista
-removerLivro :: Livro -> [Livro] -> IO [Livro]
-removerLivro idLivro lista_livros = do
-    if not (idPertenceLista idLivro lista_livros)
-    --verifica se o id do livro fornecido pertence a lista 
-       then do
-            putStrLn "Erro! o id do livro nao foi encontrado"
-            return lista_livros
-        else do
-            putStrLn "Livro removido com sucesso mano"
-            return (filter (\l -> idLivro /= idLivro) lista_livros)
+removerLivro :: Int -> [Livro] -> ResultadoLivro
+removerLivro id listaLivros
+    | any (\l -> idLivro l == id) listaLivros = Sucesso (filter (\l -> idLivro l /= id) listaLivros)
+    | otherwise = Erro "Livro não encontrado"
+
 
 
 
