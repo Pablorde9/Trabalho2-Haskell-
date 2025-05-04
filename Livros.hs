@@ -71,6 +71,15 @@ matriculaExiste mat = any (\u -> matricula u == mat)
 emailExiste :: String -> [Usuario] -> Bool
 emailExiste emailDado = any (\u -> email u == emailDado)
 
+-- funcao para validar a adicao de um usuario
+validarAdicaoUsuario :: Usuario -> [Usuario] -> IO ()
+validarAdicaoUsuario usuario lista = do
+    if matriculaPertenceLista usuario lista
+        then putStrLn "Erro! Matrícula já cadastrada."
+    else if emailExiste (email usuario) lista
+        then putStrLn "Erro! Email já cadastrado."
+        else putStrLn "Usuário validado com sucesso!"
+
 --adiciona um usuario se a matricula for unica
 adicionarUsuario :: Usuario -> [Usuario] -> [Usuario]
 adicionarUsuario usuario lista
