@@ -1,5 +1,6 @@
 module Livros where
 
+import Data.List (any,find)
 import Tipos
 -- Funcoes de cadastro de livros:
 
