@@ -27,5 +27,17 @@ adicionarLivro livro lista_livros =
        then lista_livros -- se o id do novo livro ja existir na lista, retorna a mesma lista
        else (livro : lista_livros) -- coloca a novo livro no comeco da lista de livros
 
+-- Imprime mensagemm dizendo se a remocao foi bem sucedida ou nao
+validarRemocao :: Int -> [Livro] -> IO ()
+validarRemocao id lista = do
+    if any (\l -> idLivro l == id) lista
+        then do
+            putStrLn "Livro encontrado e removido"
+        else do
+            putStrLn "Erro! Livro nao encontrado"
+
+-- funcao pura para remover livro
+removerLivro :: Int -> [Livro] -> [Livro]
+removerLivro id = filter (\l -> idLivro l /= id) --filter para remover os livros com mesmo id
 
 
