@@ -97,6 +97,12 @@ validarRemocaoUsuario mat lista = do
 removerUsuario :: String -> [Usuario] -> [Usuario]
 removerUsuario mat = filter (\u -> matricula u /= mat)
 
+-- filtra usuarios por nome
+filtrarPorNome :: String -> [Usuario] -> [Usuario]
+filtrarPorNome nomeBusca = filter (\usuario -> nome usuario == nomeBusca)
 
+--filtra usuarios por email
+filtrarPorEmail :: String -> [Usuario] -> [Usuario]
+filtrarPorEmail emailBusca = filter (\usuario -> email usuario == emailBusca)
 
 
