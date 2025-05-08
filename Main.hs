@@ -165,15 +165,111 @@ laçoSubMenu3 u l e d ep = do
                                    putStrLn (unlines (map show espera_livro))
                                    laçoSubMenu3 u l e d ep
                               _ -> laçoMenu u l e d ep
-
+- Relatórios submenu
 laçoSubMenu4 :: [Usuario] -> [Livro] -> [Emprestimo] -> [Devolucao] -> [Espera] -> IO ()
-laçoSubMenu4  u l e d ep = do
-                             opçao <- subMenu ["1 - Emprestimos ativos", "2 - Historico de Empréstimos", "3 - Lista de Espera", "0 - Voltar"] 0 3
-                             case opçao of
-                               1 -> do putStrLn ""
-                               2 -> do putStrLn ""
-                               3 -> do putStrLn ""
-                               _ -> laçoMenu u l e d ep
+laçoSubMenu4 u l e d ep = do
+    opçao <- subMenu "Menu Relatórios" 
+        ["1 - Empréstimos ativos",
+         "2 - Histórico de Empréstimos por Usuário",
+         "3 - Lista de Espera Completa",
+         "4 - Livros Disponíveis",
+         "5 - Livros Emprestados",
+         "0 - Voltar"] 0 5
+    case opçao of
+        1 -> do 
+            putStrLn "Empréstimos ativos:"
+            print $ emprestimosAtivos e
+            laçoSubMenu4 u l e d ep
+        2 -> do 
+            matricula <- prompt "Digite a matrícula do usuário: "
+            case encontraUsuario matricula u of
+                Just usuario -> do
+                    putStrLn $ "Histórico de empréstimos para " ++ nome usuario ++ ":"
+                    print $ historicoUsuario usuario e
+                Nothing -> putStrLn "Usuário não encontrado!"
+            laçoSubMenu4 u l e d ep
+        3 -> do 
+            putStrLn "Lista de espera completa:"
+            print $ livrosComEspera (map (\esp -> (idLivro $ livroEsp esp, [usuarioEsp esp])) ep) l
+            laçoSubMenu4 u l e d ep
+        4 -> do 
+            putStrLn "Livros disponíveis:"
+            print $ livrosDisponiveis l e
+            laçoSubMenu4 u l e d ep
+        5 -> do 
+            putStrLn "Livros emprestados:"
+            print $ livrosEmprestados l e
+            laçoSubMenu4 u l e d ep
+        0 -> laçoMenu u l e d ep
+        _ -> laçoSubMenu4 u l e d ep
+
+-- Editar Livro submenu
+laçoSubMenu5 :: [Usuario] -> [Livro] -> [Emprestimo] -> [Devolucao] -> [Espera] -> IO ()
+laçoSubMenu5 u l e d ep = do
+    opçao <- subMenu "Editar Livro" 
+        ["1 - Alterar título",
+         "2 - Alterar autor",
+         "3 - Alterar ano",
+         "0 - Voltar"] 0 3
+    case opçao of
+        1 -> do 
+            idLivro <- prompt "Digite o ID do livro: "
+            novoTitulo <- prompt "Digite o novo título: "
+            let livrosAtualizados = map (\livro -> 
+                if idLivro livro == idLivro 
+                then livro { titulo = novoTitulo } 
+                else livro) l
+            putStrLn "Título alterado com sucesso!"
+            laçoSubMenu5 u livrosAtualizados e d ep
+        2 -> do 
+            idLivro <- prompt "Digite o ID do livro: "
+            novoAutor <- prompt "Digite o novo autor: "
+            let livrosAtualizados = map (\livro -> 
+                if idLivro livro == idLivro 
+                then livro { autor = novoAutor } 
+                else livro) l
+            putStrLn "Autor alterado com sucesso!"
+            laçoSubMenu5 u livrosAtualizados e d ep
+        3 -> do 
+            idLivro <- prompt "Digite o ID do livro: "
+            novoAno <- prompt "Digite o novo ano: "
+            let livrosAtualizados = map (\livro -> 
+                if idLivro livro == idLivro 
+                then livro { ano = novoAno } 
+                else livro) l
+            putStrLn "Ano alterado com sucesso!"
+            laçoSubMenu5 u livrosAtualizados e d ep
+        0 -> laçoMenu u l e d ep
+        _ -> laçoSubMenu5 u l e d ep
+
+-- Editar Usuário submenu
+laçoSubMenu6 :: [Usuario] -> [Livro] -> [Emprestimo] -> [Devolucao] -> [Espera] -> IO ()
+laçoSubMenu6 u l e d ep = do
+    opçao <- subMenu "Editar Usuário" 
+        ["1 - Alterar nome",
+         "2 - Alterar email",
+         "0 - Voltar"] 0 2
+    case opçao of
+        1 -> do 
+            matricula <- prompt "Digite a matrícula do usuário: "
+            novoNome <- prompt "Digite o novo nome: "
+            let usuariosAtualizados = map (\usuario -> 
+                if matricula usuario == matricula 
+                then usuario { nome = novoNome } 
+                else usuario) u
+            putStrLn "Nome alterado com sucesso!"
+            laçoSubMenu6 usuariosAtualizados l e d ep
+        2 -> do 
+            matricula <- prompt "Digite a matrícula do usuário: "
+            novoEmail <- prompt "Digite o novo email: "
+            let usuariosAtualizados = map (\usuario -> 
+                if matricula usuario == matricula 
+                then usuario { email = novoEmail } 
+                else usuario) u
+            putStrLn "Email alterado com sucesso!"
+            laçoSubMenu6 usuariosAtualizados l e d ep
+        0 -> laçoMenu u l e d ep
+        _ -> laçoSubMenu6 u l e d e
 
 
 laçoMenu :: [Usuario] -> [Livro] -> [Emprestimo] -> [Devolucao] -> [Espera] -> IO ()
