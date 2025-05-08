@@ -55,6 +55,10 @@ filtrarPorNome nomeBusca = filter (\usuario -> nome usuario == nomeBusca)
 filtrarPorEmail :: String -> [Usuario] -> [Usuario]
 filtrarPorEmail emailBusca = filter (\usuario -> email usuario == emailBusca)
 
+-- filtra usuarios por matricula
+filtraPorMatricula :: String -> [Usuario] -> [Usuario]
+filtraPorMatricula mat = filter(\u -> matricula u == mat)
+
 -- ordena usuarios por nome
 ordenarPorNome :: [Usuario] -> [Usuario]
 ordenarPorNome = sortOn nome
