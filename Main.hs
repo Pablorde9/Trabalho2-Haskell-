@@ -61,9 +61,9 @@ laçoSubMenu1 l =  do
                                     "3 - Lista Livros",
                                     "0 - Voltar"] 0 3
                   case opçao of
-                   1 -> do putStrln ""
-                   2 -> do putStrln ""
-                   3 -> do putStrln ""
+                   1 -> do putStrLn ""
+                   2 -> do putStrLn ""
+                   3 -> do putStrLn ""
 
 laçoSubMenu2 :: [Usuario] -> IO () 
 laçoSubMenu2 u = do
@@ -72,9 +72,9 @@ laçoSubMenu2 u = do
                                    "3 - Listar Usuários",
                                    "0 - Voltar"] 0 3
                  case opçao of
-                   1 -> do putStrln ""
-                   2 -> do putStrln ""
-                   3 -> do putStrln ""
+                   1 -> do putStrLn ""
+                   2 -> do putStrLn ""
+                   3 -> do putStrLn ""
 
 laçoSubMenu3 :: [Emprestimo] -> [Devolucoes] -> IO ()
 laçoSubMenu3 e d = do
@@ -84,9 +84,9 @@ laçoSubMenu3 e d = do
                                    "4 - Lista de Espera"
                                    "0 - Voltar"] 0 3
                    case opçao of
-                     1 -> do putStrln ""
-                     2 -> do putStrln ""
-                     3 -> do putStrln ""
+                     1 -> do putStrLn ""
+                     2 -> do putStrLn ""
+                     3 -> do putStrLn ""
 
 
 laçoMenu :: [Usuario] -> [Livro] -> [Emprestimo] -> [Devolucoes] -> IO ()
