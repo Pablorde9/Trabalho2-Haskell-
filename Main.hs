@@ -45,12 +45,10 @@ menu = do exibirOpçoes texto
               "2 - Cadastrar usuários",
               "3 - Empréstimo e devolução",
               "4 - Relatórios",
-              "5 - Editar Livro",
-              "6 - Editar usuário",
-              "7 - Salvar e Sair"
+              "5 - Salvar e Sair"
             ]
     opMin = 1
-    opMax = 7
+    opMax = 5
 
 subMenu :: [String] -> Int -> Int -> IO Int
 subMenu str min max = do
@@ -202,59 +200,6 @@ laçoSubMenu4 u l e d ep = do
             laçoSubMenu4 u l e d ep
         0 -> laçoMenu u l e d ep
         _ -> laçoSubMenu4 u l e d ep
-
--- Editar Livro submenu
-laçoSubMenu5 :: [Usuario] -> [Livro] -> [Emprestimo] -> [Devolucao] -> [Espera] -> IO ()
-laçoSubMenu5 u l e d ep = do
-    opçao <- subMenu "Editar Livro" 
-        ["1 - Alterar título",
-         "2 - Alterar autor",
-         "3 - Alterar ano",
-         "0 - Voltar"] 0 3
-    case opçao of
-        1 -> do 
-            id_livro <- prompt "Digite o ID do livro: "
-            novoTitulo <- prompt "Digite o novo título: "
-            let livrosAtualizados = map (\livro -> if idLivro livro == id_livro then livro { titulo = novoTitulo } else livro) l
-            putStrLn "Título alterado com sucesso!"
-            laçoSubMenu5 u livrosAtualizados e d ep
-        2 -> do 
-            id_livro <- prompt "Digite o ID do livro: "
-            novoAutor <- prompt "Digite o novo autor: "
-            let livrosAtualizados = map (\livro -> if idLivro livro == id_livro then livro { autor = novoAutor } else livro) l
-            putStrLn "Autor alterado com sucesso!"
-            laçoSubMenu5 u livrosAtualizados e d ep
-        3 -> do 
-            id_livro <- prompt "Digite o ID do livro: "
-            novoAno <- prompt "Digite o novo ano: "
-            let livrosAtualizados = map (\livro -> if idLivro livro == id_livro then livro { ano = novoAno } else livro) l
-            putStrLn "Ano alterado com sucesso!"
-            laçoSubMenu5 u livrosAtualizados e d ep
-        0 -> laçoMenu u l e d ep
-        _ -> laçoSubMenu5 u l e d ep
-
--- Editar Usuário submenu
-laçoSubMenu6 :: [Usuario] -> [Livro] -> [Emprestimo] -> [Devolucao] -> [Espera] -> IO ()
-laçoSubMenu6 u l e d ep = do
-    opçao <- subMenu "Editar Usuário" 
-        ["1 - Alterar nome",
-         "2 - Alterar email",
-         "0 - Voltar"] 0 2
-    case opçao of
-        1 -> do 
-            matricula <- prompt "Digite a matrícula do usuário: "
-            novoNome <- prompt "Digite o novo nome: "
-            let usuariosAtualizados = map (\usuario -> if matricula usuario == matricula then usuario { nome = novoNome } else usuario) u
-            putStrLn "Nome alterado com sucesso!"
-            laçoSubMenu6 usuariosAtualizados l e d ep
-        2 -> do 
-            matricula <- prompt "Digite a matrícula do usuário: "
-            novoEmail <- prompt "Digite o novo email: "
-            let usuariosAtualizados = map (\usuario -> if matricula usuario == matricula then usuario { email = novoEmail } else usuario) u
-            putStrLn "Email alterado com sucesso!"
-            laçoSubMenu6 usuariosAtualizados l e d ep
-        0 -> laçoMenu u l e d ep
-        _ -> laçoSubMenu6 u l e d e
 
 
 laçoMenu :: [Usuario] -> [Livro] -> [Emprestimo] -> [Devolucao] -> [Espera] -> IO ()
