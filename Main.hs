@@ -107,22 +107,41 @@ laçoSubMenu3 u l e d ep = do
                               3 -> do putStrLn ""
                               _ -> laçoMenu u l e d ep
 
-laçoSubMenu4 :: [Usuario] -> [Livro] -> [Emprestimo] -> [Devolucoes] -> [Espera] -> IO ()
-laçoSubMenu4  u l e d ep = do
-                             opçao <- subMenu ["1 - Empréstimos ativos",
-                                           "2 - Historico de Empréstimos",
-                                           "3 - Lista de Espera",
-                                           "4 - Livros Disponiveis",
-                                           "5 - Livros Emprestados",
-                                           "0 - Voltar"] 0 3
+laçoSubMenu4 :: [Usuario] -> [Livro] -> [Emprestimo] -> [Devolucao] -> [Espera] -> IO ()
+laçoSubMenu4 u l e d ep = do
+                            opçao <- subMenu ["1 - Empréstimos ativos",
+                                              "2 - Histórico de Empréstimos por Usuário",
+                                              "3 - Lista de Espera Completa",
+                                              "4 - Livros Disponíveis",
+                                              "5 - Livros Emprestados",
+                                              "0 - Voltar"] 0 5
                              case opçao of
-                               1 -> do let listaEmprestimos = emprestimosAtivos e
-                                       if e == [] then putStrLn "Sem empréstimos cadastrados!"
-                                       else putStrLn ("Empréstimos ativos: " ++ show listaEmprestimos ++ "/n")
-                                       laçoSubMenu4 u l e d ep
-                               2 -> do putStrLn ""
-                               3 -> do putStrLn ""
-                               _ -> laçoMenu u l e d ep
+                               1 -> do 
+                                     putStrLn "Empréstimos ativos:"
+                                     print $ emprestimosAtivos e
+                                     laçoSubMenu4 u l e d ep
+                               2 -> do 
+                                     matricula <- prompt "Digite a matrícula do usuário: "
+                                     case encontraUsuario matricula u of
+                                     Just usuario -> do
+                                     putStrLn $ "Histórico de empréstimos para " ++ nome usuario ++ ":"
+                                     print $ historicoUsuario usuario e
+                                     Nothing -> putStrLn "Usuário não encontrado!"
+                                     laçoSubMenu4 u l e d ep
+                               3 -> do 
+                                     putStrLn "Lista de espera completa:"
+                                     print $ livrosComEspera (map (\esp -> (idLivro $ livroEsp esp, [usuarioEsp esp])) ep) l
+                                     laçoSubMenu4 u l e d ep
+                               4 -> do 
+                                     putStrLn "Livros disponíveis:"
+                                     print $ livrosDisponiveis l e
+                                     laçoSubMenu4 u l e d ep
+                               5 -> do 
+                                     putStrLn "Livros emprestados:"
+                                     print $ livrosEmprestados l e
+                                     laçoSubMenu4 u l e d ep
+                               0 -> laçoMenu u l e d ep
+                               _ -> laçoSubMenu4 u l e d ep
 
 
 laçoMenu :: [Usuario] -> [Livro] -> [Emprestimo] -> [Devolucoes] -> [Espera] -> IO ()
