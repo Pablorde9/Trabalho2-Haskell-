@@ -79,7 +79,7 @@ stringParaUsuario string = case split '/' string of
 stringParaEmprestimo :: [Livro] -> [Usuario] -> String -> Maybe Emprestimo
 stringParaEmprestimo livros usuarios string = case split '/' string of
     [dateStr, idLivStr, matriculaStr, devStr] ->
-        case (dataValido dateStr, readValido idLivStr, parseBool devStr) of
+        case (dataValido dateStr, readValido idLivStr, boolValido devStr) of
             (Just (d, m, a), Just idLiv, Just dev) ->
                 case (encontraLivro idLiv livros, encontraUsuario matriculaStr usuarios) of
                     (Just livro, Just usuario) -> Just Emprestimo
@@ -161,8 +161,8 @@ mapValido f (x:xs) = case f x of
     Just y  -> y : mapValido f xs
     Nothing -> mapValido f xs
 
-parseBool :: String -> Maybe Bool
-parseBool s = case map toLower s of
+boolValido :: String -> Maybe Bool
+boolValido s = case map toLower s of
     "true"  -> Just True
     "false" -> Just False
     "t"     -> Just True
