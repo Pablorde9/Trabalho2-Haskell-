@@ -19,12 +19,17 @@ type DiaMesAno = (Int, Int, Integer)
 data Emprestimo = Emprestimo
      { dataEmprestimo        :: DiaMesAno
      , livroE                :: Livro
-     , usuarioE              :: String
+     , usuarioE              :: Usuario
      , devolvido             :: Bool
      } deriving (Show, Eq)
 
-data Devolucoes = Devolucoes
+data Devolucao = Devolucao
      { dataDevolucao   :: DiaMesAno
      , livroD          :: Livro
      , usuarioD        :: Usuario
+     } deriving (Show, Eq)
+
+data Espera = Espera
+     { usuarioEsp   :: Usuario
+     , livroEsp     :: Livro
      } deriving (Show, Eq)
