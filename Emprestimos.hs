@@ -27,11 +27,22 @@ cadastrarEspera usuario livro lista_espera = if usuario_valido then lista_espera
    usuario_valido = foldl (\ b esp -> if esp == (Espera {usuarioEsp = usuario, livroEsp = livro}) then False && b else True && b) True lista_espera
 
 
+-- printa se o usuario foi cadastrado na lista de espera ou nao
+cadastrarEsperaIO :: Usuario -> Livro -> [Espera] -> IO ()
+cadastrarEsperaIO usuario livro lista_espera = do
+                                               if (foldl (\ b esp -> if esp == (Espera {usuarioEsp = usuario, livroEsp = livro}) then False && b else True && b) True lista_espera)
+                                                  then putStrLn ("Pronto! Voce esta cadastrado na lista de espera do livro" ++ show (titulo livro))
+                                                  else putStrLn "Parece que voce ja esta cadastrado na lista de espera deste livro! Agora e so esperar :)"
+
+
+
 -- checa se o emprestimo pode ser feito(se o livro esta disponivel)
 validaEmprestimo :: Emprestimo -> [Emprestimo] -> Bool
 validaEmprestimo novo_emprestimo lista_emprestimo = foldl (\ b emp -> (devolvido emp)) True lista_filtrada
   where
    lista_filtrada = filter (\ emp -> (livroE emp) == (livroE novo_emprestimo)) lista_emprestimo
+
+
 
 -- funcao IO para dizer se o emprestimo foi bem sucedido ou nao. caso nao, pergunta se quer entrar na lista de espera e retorna sua resposta
 validaEmprestimoIO :: Emprestimo -> [Emprestimo] -> IO Char
