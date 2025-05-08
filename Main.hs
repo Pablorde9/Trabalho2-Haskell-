@@ -54,45 +54,81 @@ subMenu str min max = do
                          lerOpçao min max
 
 
-laçoSubMenu1 :: [Livro] -> IO ()
-laçoSubMenu1 l =  do
-                  opçao <- subMenu ["1 - Adicionar Livro",
-                                    "2 - Remover Livro",
-                                    "3 - Lista Livros",
-                                    "0 - Voltar"] 0 3
-                  case opçao of
-                   1 -> do putStrLn ""
-                   2 -> do putStrLn ""
-                   3 -> do putStrLn ""
+laçoSubMenu1 :: [Usuario] -> [Livro] -> [Emprestimo] -> [Devolucoes] -> [Espera] -> IO ()
+laçoSubMenu1 u l e d ep  =  do
+                              opçao <- subMenu ["1 - Adicionar Livro",
+                                                "2 - Remover Livro",
+                                                "3 - Listar Livros",
+                                                "0 - Voltar"] 0 3
+                            case opçao of
+                              1 -> do titulo <- prompt "Digite o titulo do livro: "
+                                      autor <- prompt "Digite o autor do livro: "
+                                      ano <- prompt "Digite o ano do livro: "
+                                      idLivro <- prompt "Digite o id do livro: "
+                                      let livro = Livro titulo autor ano idLivro
+                                      let novaLista = adicionarLivro livro l
+                                      validarAdicao livro novaLista
+                                      laçoSubMenu1 u novaLista e d ep
+                              2 -> do idLivro <- prompt "Digite o id do livro: "
+                                      removerLivro idLivro l
+                                      validarRemocao idLivro l
+                                      laçoSubMenu1 u l e d ep
+                              3 -> print l
+                              _ -> do laçoMenu l e d u ep
 
-laçoSubMenu2 :: [Usuario] -> IO () 
-laçoSubMenu2 u = do
-                 opçao <- subMenu ["1 - Adicionar Usuário",
-                                   "2 - Remover Usuário",
-                                   "3 - Listar Usuários",
-                                   "0 - Voltar"] 0 3
-                 case opçao of
-                   1 -> do putStrLn ""
-                   2 -> do putStrLn ""
-                   3 -> do putStrLn ""
+laçoSubMenu2 :: [Usuario] -> [Livro] -> [Emprestimo] -> [Devolucoes] -> [Espera] -> IO () 
+laçoSubMenu2  u l e d ep = do
+                             opçao <- subMenu ["1 - Adicionar Usuário",
+                                               "2 - Remover Usuário",
+                                               "3 - Listar Usuários",
+                                               "0 - Voltar"] 0 3
+                             case opçao of
+                               1 -> do nome <- prompt "Digite o nome do usuário: "
+                                       matricula <- prompt "Digite a matricula do usuário: "
+                                       email <- prompt "Digite o email do usuário: "
+                                       let usuario = Usuario nome matricula email
+                                       let novaLista = adicionarLivro livro l
+                                       validarAdicao livro novaLista
+                                       laçoSubMenu1 u novaLista e d ep
+                               2 -> do putStrLn ""
+                               3 -> do putStrLn ""
+                               _ -> laçoMenu u l e d ep
 
-laçoSubMenu3 :: [Emprestimo] -> [Devolucoes] -> IO ()
-laçoSubMenu3 e d = do
-                   opçao <- subMenu ["1 - Registrar empréstimos",
-                                   "2 - Registrar devoluções",
-                                   "3 - Listar livros emprestados e disponíveis",
-                                   "4 - Lista de Espera"
-                                   "0 - Voltar"] 0 3
-                   case opçao of
-                     1 -> do putStrLn ""
-                     2 -> do putStrLn ""
-                     3 -> do putStrLn ""
+laçoSubMenu3 :: [Usuario] -> [Livro] -> [Emprestimo] -> [Devolucoes] -> [Espera] -> IO ()
+laçoSubMenu3 u l e d ep = do
+                            opçao <- subMenu ["1 - Registrar empréstimos",
+                                              "2 - Registrar devoluções",
+                                              "3 - Listar livros emprestados e disponíveis",
+                                              "4 - Lista de Espera"
+                                              "0 - Voltar"] 0 3
+                            case opçao of
+                              1 -> do putStrLn ""
+                              2 -> do putStrLn ""
+                              3 -> do putStrLn ""
+                              _ -> laçoMenu u l e d ep
+
+laçoSubMenu4 :: [Usuario] -> [Livro] -> [Emprestimo] -> [Devolucoes] -> [Espera] -> IO ()
+laçoSubMenu4  u l e d ep = do
+                             opçao <- subMenu ["1 - Emprestimos aivos",
+                                           "2 - Historico de Empréstimos",
+                                           "3 - Lista de Espera"
+                                           "0 - Voltar"] 0 3
+                             case opçao of
+                               1 -> do putStrLn ""
+                               2 -> do putStrLn ""
+                               3 -> do putStrLn ""
+                               _ -> laçoMenu u l e d ep
 
 
-laçoMenu :: [Usuario] -> [Livro] -> [Emprestimo] -> [Devolucoes] -> IO ()
-laçoMenu u l e d = do
-                     opçao <- menu
-                     case opçao of
-                       1 -> do laçoSubMenu
-                       2 -> do laçoSubMenu
+laçoMenu :: [Usuario] -> [Livro] -> [Emprestimo] -> [Devolucoes] -> [Espera] -> IO ()
+laçoMenu  u l e d ep = do
+                         opçao <- menu
+                         case opçao of
+                           1 -> laçoSubMenu1
+                           2 -> laçoSubMenu2
+                           3 -> laçoSubMenu3
+                           4 -> laçoSubMenu4
+                           5 -> do laçoSubMenu
+                           6 -> do laçoSubMenu
+                           7 -> do laçoSubMenu
                        
