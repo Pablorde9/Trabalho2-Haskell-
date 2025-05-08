@@ -138,8 +138,21 @@ laçoSubMenu3 u l e d ep = do
                                             let novaListaE = registrarEmprestimo emprestimo e
                                             laçoSubMenu3 u l novaListaE d ep
                               2 -> do putStrLn ""
-                              3 -> do putStrLn ""
-                              4 -> do putStrLn ""
+                              3 -> do 
+                                   putStrLn "Livros Emprestados:"
+                                   let livros_emprestados = filtraLivrosEmprestados e
+                                   putStrLn (unlines (map show livros_emprestados))
+                                   putStrLn ""
+                                   putStrLn "Livros Disponiveis:"
+                                   let livros_disponiveis = l e
+                                   putStrLn (unlines (map show livros_disponiveis))
+                                   laçoSubMenu3 u l e d ep
+                              4 -> do 
+                                   id_livro <- prompt "Digite o id do livro"
+                                   let livro = head (filtarPorId id_livro l)
+                                   let espera_livro = filtraEsperaPorLivro livro ep
+                                   putStrLn (unlines (map show espera_livro))
+                                   laçoSubMenu3 u l e d ep
                               _ -> laçoMenu u l e d ep
 
 laçoSubMenu4 :: [Usuario] -> [Livro] -> [Emprestimo] -> [Devolucao] -> [Espera] -> IO ()
