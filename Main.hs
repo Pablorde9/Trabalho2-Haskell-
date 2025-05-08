@@ -109,12 +109,17 @@ laçoSubMenu3 u l e d ep = do
 
 laçoSubMenu4 :: [Usuario] -> [Livro] -> [Emprestimo] -> [Devolucoes] -> [Espera] -> IO ()
 laçoSubMenu4  u l e d ep = do
-                             opçao <- subMenu ["1 - Emprestimos aivos",
+                             opçao <- subMenu ["1 - Empréstimos ativos",
                                            "2 - Historico de Empréstimos",
-                                           "3 - Lista de Espera"
+                                           "3 - Lista de Espera",
+                                           "4 - Livros Disponiveis",
+                                           "5 - Livros Emprestados",
                                            "0 - Voltar"] 0 3
                              case opçao of
-                               1 -> do putStrLn ""
+                               1 -> do let listaEmprestimos = emprestimosAtivos e
+                                       if e == [] then putStrLn "Sem empréstimos cadastrados!"
+                                       else putStrLn ("Empréstimos ativos: " ++ show listaEmprestimos ++ "/n")
+                                       laçoSubMenu4 u l e d ep
                                2 -> do putStrLn ""
                                3 -> do putStrLn ""
                                _ -> laçoMenu u l e d ep
