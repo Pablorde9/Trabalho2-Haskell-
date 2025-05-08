@@ -3,6 +3,15 @@ module Emprestimos where
 
 import Tipos
 
+filtraLivrosEmprestados :: [Emprestimo] -> [Livro]
+filtraLivrosEmprestados lista_emprestimos = foldl (\ i emp -> if (devolvido emp) == False then i ++ [livroE emp] else i) [] lista_emprestimos
+
+filtraLivrosDisponiveis :: [Livro] -> [Emprestimo] -> [Livro]
+filtraLivrosDisponiveis lista_livros lista_emprestimos = foldl (\ i livro -> if checaLivro livro lista_emprestimos then i ++ [livro] else i) [] lista_livros
+ where
+  checaLivro livro lista_emprestimos = foldl (\ i emp -> if livro == (livroE emp) && (devolvido emp) == False then True && i else False && i) True lista_emprestimos
+
+
 filtraEsperaPorLivro :: Livro -> [Espera] -> [Espera]
 filtraEsperaPorLivro alvo lista_espera = filter (\ esp -> (livroEsp esp) == alvo) lista_espera
 
