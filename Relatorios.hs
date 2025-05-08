@@ -15,4 +15,12 @@ historicoUsuario matricula = filter (\e -> usuarioE e == matricula)
 livrosComEspera :: [(Int, [Usuario])] -> [Livro] -> [(Livro, [usuario])]
 livrosComEspera listaEspera livros =  [(livro, usuarios) | (idLivro, usuarios) <- listasEspera, not (null usuarios), Just livro <- [ find (\l -> idLivro l == idLivro) livros]]
 -- verifica se existe usuarios e procura os livros com base no id da lista de espera
+-- corrigir ainda
 
+-- livros disponiveis
+livrosDisponiveis :: [Livro] -> [Emprestimo] -> [Livro]
+livrosDisponiveis livros emprestimos = filter (\livro -> not $ any (\e -> idLivro (livroE e) == idLivro livro && not (devolvido e)) emprestimos) livros
+
+--livros emprestados
+livrosEmprestados :: [Livro] -> [Emprestimo] -> [Livro]
+livrosEmprestados livros emprestimos = filter (\livro -> any (\e -> idLivro (livroE e) == idLivro livro && not (devolvido e)) emprestimos) livros
