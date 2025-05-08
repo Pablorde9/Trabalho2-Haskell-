@@ -1,6 +1,6 @@
 module Usuarios where
 
-import Data.List (any,find)
+import Data.List
 import Tipos
 
 -- FUNCOES DE CADASTRO DE USUARIO
@@ -54,3 +54,12 @@ filtrarPorNome nomeBusca = filter (\usuario -> nome usuario == nomeBusca)
 --filtra usuarios por email
 filtrarPorEmail :: String -> [Usuario] -> [Usuario]
 filtrarPorEmail emailBusca = filter (\usuario -> email usuario == emailBusca)
+
+-- ordena usuarios por nome
+ordenarPorNome :: [Usuario] -> [Usuario]
+ordenarPorNome = sortOn nome
+
+-- ordena usuarios por matricula 
+ordenarPorMatricula :: [Usuario] -> [Usuario]
+ordenarPorMatricula = sortOn matricula
+
