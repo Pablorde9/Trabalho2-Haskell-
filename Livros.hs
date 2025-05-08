@@ -52,3 +52,7 @@ filtrarPorAno anoBusca = filter (\livro -> ano livro == anoBusca)
 --Filtra livros por titulo 
 filtrarPorTitulo :: String -> [Livro] -> [Livro]
 filtrarPorTitulo tituloBusca = filter (\livro -> titulo livro == tituloBusca)
+
+-- Filtra livros pelo id
+filtrarPorId :: Int -> [Livro] -> Maybe Livro
+filtrarPorId id = find (\l -> idLivro l == id)
