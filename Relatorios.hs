@@ -8,8 +8,8 @@ emprestimosAtivos :: [Emprestimo] -> [Emprestimo]
 emprestimosAtivos = filter (not .devolvido )
 
 -- mostra o historico de emprestimo de um usuario especifico pela sua matricula
-historicoUsuario :: String -> [Emprestimo] -> [Emprestimo]
-historicoUsuario matricula = filter (\e -> usuarioE e == matricula)
+historicoUsuario :: Usuario -> [Emprestimo] -> [Emprestimo]
+historicoUsuario usuario = filter (\e -> usuarioE e == usuario)
 
 -- livros com a lista de espera nao vazia e os usuarios
 livrosComEspera :: [(Int, [Usuario])] -> [Livro] -> [(Livro, [Usuario])]
