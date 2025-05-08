@@ -54,5 +54,5 @@ filtrarPorTitulo :: String -> [Livro] -> [Livro]
 filtrarPorTitulo tituloBusca = filter (\livro -> titulo livro == tituloBusca)
 
 -- Filtra livros pelo id
-filtrarPorId :: Int -> [Livro] -> Maybe Livro
-filtrarPorId id = find (\l -> idLivro l == id)
+filtrarPorId :: Int -> [Livro] -> [Livro]
+filtrarPorId id = filter (\l -> idLivro l == id)
