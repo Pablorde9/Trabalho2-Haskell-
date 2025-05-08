@@ -70,7 +70,7 @@ registrarEmprestimo novo_emprestimo lista_emprestimos = if (validaEmprestimo nov
 
 
 -- adiciona uma devolucao na lista de devolucoes
-registrarDevolucao :: livro -> Usuario -> DiaMesAno -> [Devolucao] -> [Devolucao]
+registrarDevolucao :: Livro -> Usuario -> DiaMesAno -> [Devolucao] -> [Devolucao]
 registrarDevolucao livro usuario data_devolucao lista_devolucoes = lista_devolucoes ++ [Devolucao { dataDevolucao = data_devolucao, livroD = livro, usuarioD = usuario} ]
 
 
