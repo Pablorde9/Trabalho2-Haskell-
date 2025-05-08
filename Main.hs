@@ -116,7 +116,7 @@ laçoSubMenu3 u l e d ep = do
                                       matricula <- getLine
                                       idLivro <- prompt "Digite o id do livro: "
                                       let usuario = head (filtraPorMatricula matricula u)
-                                      let livro = head (filtarPorId idLivro l)
+                                      let livro = head (filtrarPorId idLivro l)
                                       let emprestimo = criarEmprestimo (dia,mes,ano) livro usuario
                                       c <- validaEmprestimoIO emprestimo e
                                       case c of
@@ -128,19 +128,39 @@ laçoSubMenu3 u l e d ep = do
                                         ' ' -> do
                                             let novaListaE = registrarEmprestimo emprestimo e
                                             laçoSubMenu3 u l novaListaE d ep
-                              2 -> do putStrLn ""
+                              2 -> do
+                                   dia <- prompt "Digite o dia: "
+                                   mes <- prompt "Digite o mes: "
+                                   putStrLn "Digite o ano: "
+                                   anoStr <- getLine
+                                   let ano = read anoStr :: Integer
+                                   putStrLn "Digite a matricula do usuário: "
+                                   matricula <- getLine
+                                   idLivro <- prompt "Digite o id do livro: "
+                                   let usuario = head (filtraPorMatricula matricula u)
+                                   let livro = head (filtrarPorId idLivro l)
+                                   let novo_d = registrarDevolucao livro usuario (dia,mes,ano) d
+                                   putStrLn "Lista de devolucoes atualizada! Atualize o emprestimo agora"
+                                   dia <- prompt "Digite o dia do emprestimo: "
+                                   mes <- prompt "Digite o mes do emprestimo: "
+                                   putStrLn "Digite o ano do emprestimo: "
+                                   anoStr <- getLine
+                                   let emprestimo = criarEmprestimo (dia,mes,ano) livro usuario
+                                   let novo_e = marcarDevolvido emprestimo e
+                                   putStrLn "Pronto!"
+                                   laçoSubMenu3 u l novo_e novo_d ep
                               3 -> do 
                                    putStrLn "Livros Emprestados:"
                                    let livros_emprestados = filtraLivrosEmprestados e
                                    putStrLn (unlines (map show livros_emprestados))
                                    putStrLn ""
                                    putStrLn "Livros Disponiveis:"
-                                   let livros_disponiveis = l e
+                                   let livros_disponiveis = filtraLivrosDisponiveis l e
                                    putStrLn (unlines (map show livros_disponiveis))
                                    laçoSubMenu3 u l e d ep
                               4 -> do 
                                    id_livro <- prompt "Digite o id do livro"
-                                   let livro = head (filtarPorId id_livro l)
+                                   let livro = head (filtrarPorId id_livro l)
                                    let espera_livro = filtraEsperaPorLivro livro ep
                                    putStrLn (unlines (map show espera_livro))
                                    laçoSubMenu3 u l e d ep
