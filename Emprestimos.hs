@@ -77,6 +77,4 @@ registrarDevolucao livro usuario data_devolucao lista_devolucoes = lista_devoluc
 -- altera o estado do emprestimo para devolvido
 marcarDevolvido :: Emprestimo -> [Emprestimo] -> [Emprestimo]
 marcarDevolvido _ [] = []
-marcarDevolvido alvo lista_emprestimos = map (\e -> if e == alvo then (head empDevolvido) else e) lista_emprestimos
-    where
-     empDevolvido = filter (\emp -> alvo == emp) lista_emprestimos
+marcarDevolvido alvo lista_emprestimos = map (\e -> if e == alvo then e { devolvido = True } else e) lista_emprestimos
