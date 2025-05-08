@@ -9,7 +9,7 @@ import Tipos
 
 -- Funções para String (Serializacao)
 
-
+--Converte o tipo Livro para string e coloca "/" entre os campos do livro
 livroParaString :: Livro -> String
 livroParaString livro = intercalate "/" 
     [ show (idLivro livro)
@@ -18,13 +18,15 @@ livroParaString livro = intercalate "/"
     , show (ano livro)
     ]
 
+--Converte o tipo Usuario para string e coloca / entre os campos do usuario
 usuarioParaString :: Usuario -> String
 usuarioParaString usuario = intercalate "/"
     [ matricula usuario
     , nome usuario
     , email usuario
     ]
-
+    
+--Converte o tipo emprestimo para string e coloca / entre os campos do emprestimo
 emprestimoParaString :: Emprestimo -> String
 emprestimoParaString emp = intercalate "/"
     [ arrumaData (dataEmprestimo emp)
@@ -35,6 +37,7 @@ emprestimoParaString emp = intercalate "/"
   where
     arrumaData (d, m, a) = intercalate "-" [show a, show m, show d]
 
+--Converte o tipo devolucao para string e coloca / entre os campos do devolucao
 devolucaoParaString :: Devolucao -> String
 devolucaoParaString devol = intercalate "/"
     [ arrumaData (dataDevolucao devol)
@@ -44,6 +47,7 @@ devolucaoParaString devol = intercalate "/"
   where
     arrumaData (d, m, a) = intercalate "-" [show a, show m, show d]
 
+--Converte o tipo espera para string e coloca / entre os campos do espera
 esperaParaString :: Espera -> String
 esperaParaString esp = intercalate "/"
     [ show (idLivro (livroEsp esp))
@@ -53,7 +57,8 @@ esperaParaString esp = intercalate "/"
 
 -- Funções de String (Desserializacao)
 
-
+--Converte uma string em Livro se tiver um livro valido, se não, retorna nada
+-- valores separados por /
 stringParaLivro :: String -> Maybe Livro
 stringParaLivro string = case split '/' string of
     [idStr, tit, aut, anoStr] ->
@@ -67,6 +72,8 @@ stringParaLivro string = case split '/' string of
             _ -> Nothing
     _ -> Nothing
 
+--Converte uma string em usuario se tiver um usuario valido, se não, retorna nada
+-- valores separados por /
 stringParaUsuario :: String -> Maybe Usuario
 stringParaUsuario string = case split '/' string of
     [mat, nom, ema] -> Just Usuario
@@ -76,6 +83,9 @@ stringParaUsuario string = case split '/' string of
         }
     _ -> Nothing
 
+
+--Converte uma string em emprestimo se tiver um emprestimo valido, se não, retorna nada
+-- valores separados por /
 stringParaEmprestimo :: [Livro] -> [Usuario] -> String -> Maybe Emprestimo
 stringParaEmprestimo livros usuarios string = case split '/' string of
     [dateStr, idLivStr, matriculaStr, devStr] ->
@@ -92,6 +102,9 @@ stringParaEmprestimo livros usuarios string = case split '/' string of
             _ -> Nothing
     _ -> Nothing
 
+
+--Converte uma string em devolucao se tiver uma devolucao valido, se não, retorna nada
+-- valores separados por /
 stringParaDevolucao :: [Livro] -> [Usuario] -> String -> Maybe Devolucao
 stringParaDevolucao livros usuarios string = case split '/' string of
     [dateStr, idLivStr, matriculaStr] ->
@@ -107,6 +120,9 @@ stringParaDevolucao livros usuarios string = case split '/' string of
             _ -> Nothing
     _ -> Nothing
 
+
+--Converte uma string em espera se tiver uma espera valido, se não, retorna nada
+-- valores separados por /
 stringParaEspera :: [Livro] -> [Usuario] -> String -> Maybe Espera
 stringParaEspera livros usuarios string = case split '/' string of
     [idLivStr, matriculaStr] ->
@@ -144,17 +160,20 @@ dataValido string = case split '-' string of
             _ -> Nothing
     _ -> Nothing
 
+-- funcao validade que usa a funcao em Livros.hs
 encontraLivro :: Int -> [Livro] -> Maybe Livro
 encontraLivro idLiv livros = case filtrarPorId idLiv livros of
     [livro] -> Just livro  
     _       -> Nothing     
 
-
+-- funcao validada que usa a funcao em Usuarios.hs
 encontraUsuario :: String -> [Usuario] -> Maybe Usuario
 encontraUsuario mat usuarios = case filtraPorMatricula mat usuarios of
     [usuario] -> Just usuario
     _         -> Nothing     
 
+
+-- Funcao tirada do mapMaybe
 mapValido :: (a -> Maybe b) -> [a] -> [b]
 mapValido _ []     = []
 mapValido f (x:xs) = case f x of
