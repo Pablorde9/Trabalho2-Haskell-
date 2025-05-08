@@ -1,55 +1,71 @@
--> Segundo Trabalho
-feito por: Gabriel Valentin, Pablo Rodrigues, Pedro de Colla, Ruan Pablo
+Sistema de Gerenciamento de Biblioteca em Haskell
 
--> Descrição
-Sistema de gerenciamento de bibliotecas desenvolvido em Haskell como trabalho acadêmico para a disciplina de Programação Funcional. Permite criar, modificar, organizar e consultar elementos.
+📌 Descrição do Projeto
+Sistema de gerenciamento de bibliotecas desenvolvido em Haskell como trabalho acadêmico para a disciplina de Programação Funcional. Permite criar, modificar, organizar e consultar livros, usuários, empréstimos e devoluções.
 
--> Funcionalidades Principais
-Gerenciamento Básico
-- ✅ Adicionar, remover, modificar livros e usuários
-- ✅ Marcar tarefas como concluídas
-- ✅ Validação de IDs únicos
+👥 Participantes
+- Gabriel Valentim
+- Pablo Rodrigues
+- Pedro De Colla
+- Ruan Pablo
 
-Filtros e Organização
-- 🔍 Filtrar por status (Pendente/Concluída), prioridade e categoria
-- 🔎 Busca por palavras-chave na descrição
-- 🏷️ Filtro por tags e visualização de nuvem de tags
-- 📅 Ordenação por prioridade (da mais alta para a mais baixa)
+✨ Funcionalidades Principais:
 
-Gestão de Prazos
-- ⏰ Verificação de tarefas atrasadas
-- 📆 Cálculo de dias restantes para conclusão
+📚 Gerenciamento Básico
+- ✅ Adicionar, remover e modificar livros e usuários
+- ✅ Validação de IDs únicos para livros e matrículas únicas para usuários
+- ✅ Verificação de e-mails válidos e únicos
 
-Relatórios e Persistência
-- 📊 Relatórios estatísticos com distribuição por categoria
-- 💾 Salvar e carregar tarefas de/para arquivos
+🔄 Empréstimos e Devoluções
+- 📖 Registrar empréstimos de livros
+- 🔙 Registrar devoluções
+- ⏳ Sistema de lista de espera para livros indisponíveis
 
--> Pré-requisitos
+🔍 Filtros e Buscas
+- 🔎 Buscar livros por título, autor ou ano
+- 👤 Buscar usuários por nome, matrícula ou e-mail
+- 📊 Listar livros disponíveis e emprestados
+
+📊 Relatórios
+- 📋 Listar todos os empréstimos ativos
+- 🕵️ Histórico de empréstimos por usuário
+- 📝 Livros com lista de espera
+
+⚙️ Pré-requisitos
 - [GHC](https://www.haskell.org/ghc/) (versão 8.10 ou superior)
 - [Cabal](https://www.haskell.org/cabal/) (ou Stack)
-- QuickCheck (versão 2.15.0.1)
-- time (versão 1.14)
-- directory (versão 1.3.9)
-- Um arquivo nomeado como "arqteste.txt" (para as funções de teste de arquivo)
-- Um arquivo .txt para as funções de persistência de dados
+- Biblioteca `directory` para manipulação de arquivos
 
--> Clone o repositório
-git clone https://github.com/seu-usuario/Trabalho1-Haskell.git && cd Trabalho1-Haskell
+🚀 Como Executar
 
--> Instale a lib QuickCheck
-cabal install --lib QuickCheck
+1. Clone o repositório
+git clone https://github.com/seu-usuario/biblioteca-haskell.git
+cd biblioteca-haskell
 
--> Instale a lib time
-cabal install --lib time
-
--> Instale a lib directory
+2. Instale as dependências
 cabal install --lib directory
 
--> Compilar o projeto
-ghc --make Main.hs -o gerenciador-tarefas
+3. Compile o projeto
+ghc --make Main.hs -o biblioteca
 
--> Executar o programa
-./gerenciador-tarefas
+4. Execute o programa
+./biblioteca
 
--> Executar testes com QuickCheck
-Pode ser usado pela oção via menu no programa compilado. Código fonte esta no arquivo "ChecadaRapida.hs"
+📂 Estrutura de Arquivos
+- `Main.hs` - Módulo principal com a interface do sistema
+- `Tipos.hs` - Definições dos tipos de dados
+- `Livros.hs` - Operações relacionadas a livros
+- `Usuarios.hs` - Operações relacionadas a usuários
+- `Emprestimos.hs` - Lógica de empréstimos e devoluções
+- `Relatorios.hs` - Geração de relatórios
+- `Persistencia.hs` - Funções para salvar/carregar dados
+
+💾 Persistência de Dados
+O sistema automaticamente cria/usa o arquivo para armazenar todos os dados entre execuções.
+
+🧪 Testes
+O sistema inclui validações automáticas para:
+- IDs de livros únicos
+- Matrículas de usuários únicas
+- E-mails válidos e únicos
+- Disponibilidade de livros para empréstimo
