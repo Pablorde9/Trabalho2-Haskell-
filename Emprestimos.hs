@@ -3,8 +3,8 @@ module Emprestimos where
 
 import Tipos
 
-listarEspera :: Livro -> [Espera] -> [Espera]
-listarEspera alvo lista_espera = filter (\ esp -> (livroEsp esp) == alvo) lista_espera
+filtraEsperaPorLivro :: Livro -> [Espera] -> [Espera]
+filtraEsperaPorLivro alvo lista_espera = filter (\ esp -> (livroEsp esp) == alvo) lista_espera
 
 
 cadastrarEspera :: Usuario -> Livro -> [Espera] -> [Espera]
