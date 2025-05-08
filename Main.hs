@@ -112,20 +112,11 @@ laçoSubMenu3 u l e d ep = do
                                       putStrLn "Digite o ano: "
                                       anoStr <- getLine
                                       let ano = read anoStr :: Integer
-                                      putStrLn "Digite o nome do usuário: "
-                                      nome <- getLine
                                       putStrLn "Digite a matricula do usuário: "
                                       matricula <- getLine
-                                      putStrLn "Digite o email do usuário: "
-                                      email <- getLine
-                                      putStrLn "Digite o titulo do livro: "
-                                      titulo <- getLine
-                                      putStrLn "Digite o autor do livro: "
-                                      autor <- getLine
-                                      ano <- prompt "Digite o ano do livro: "
                                       idLivro <- prompt "Digite o id do livro: "
-                                      let usuario = Usuario nome matricula email
-                                      let livro = Livro titulo autor ano idLivro
+                                      let usuario = head (filtraPorMatricula matricula u)
+                                      let livro = head (filtarPorId idLivro l)
                                       let emprestimo = criarEmprestimo (dia,mes,ano) livro usuario
                                       c <- validaEmprestimoIO emprestimo e
                                       case c of
