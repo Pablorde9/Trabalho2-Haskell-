@@ -237,23 +237,20 @@ salvarESair livros usuarios emprestimos devolucoes esperas = do
             putStrLn "See you Space Cowboy..."        
 
 
-carregarDados :: FilePath -> IO (Either String ([Livro], [Usuario], [Emprestimo], [Devolucao], [Espera]))
+carregarDados :: FilePath -> IO ([Livro], [Usuario], [Emprestimo], [Devolucao], [Espera])
 carregarDados arquivo = do
     conteudo <- readFile arquivo
-    let partes = dividePartes (lines conteudo)
+    let linhas = lines conteudo
+        (livrosStr, usuariosStr, emprestimosStr, devolucoesStr, esperasStr) = dividePartes linhas
+        
+        livros' = mapValido stringParaLivro livrosStr
+        usuarios' = mapValido stringParaUsuario usuariosStr
+        emprestimos' = mapValido (stringParaEmprestimo livros' usuarios') emprestimosStr
+        devolucoes' = mapValido (stringParaDevolucao livros' usuarios') devolucoesStr
+        esperas' = mapValido (stringParaEspera livros' usuarios') esperasStr
     
-    case partes of
-        (livrosStr, usuariosStr, emprestimosStr, devolucoesStr, esperasStr) -> do
-            let livros' = mapValido stringParaLivro livrosStr
-                usuarios' = mapValido stringParaUsuario usuariosStr
-                emprestimos' = mapValido (stringParaEmprestimo livros' usuarios') emprestimosStr
-                devolucoes' = mapValido (stringParaDevolucao livros' usuarios') devolucoesStr
-                esperas' = mapValido (stringParaEspera livros' usuarios') esperasStr
-                
-            if any (\xs -> length xs /= length (filter (/= "") xs)) 
-                   [livrosStr, usuariosStr, emprestimosStr, devolucoesStr, esperasStr]
-            then return $ Left "Erro na conversao de algum registro"
-            else return $ Right (livros', usuarios', emprestimos', devolucoes', esperas')
+    return (livros', usuarios', emprestimos', devolucoes', esperas')
+
   where
     dividePartes :: [String] -> ([String], [String], [String], [String], [String])
     dividePartes lines' =
