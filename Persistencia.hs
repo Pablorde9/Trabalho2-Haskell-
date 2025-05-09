@@ -223,6 +223,7 @@ salvarESair livros usuarios emprestimos devolucoes esperas = do
             case map toLower resposta of
                 "s" -> salvarDados arquivo livros usuarios emprestimos devolucoes esperas
                 _   -> return ()
+            putStrLn "Ate a proxima!"    
         else do
             putStr "O arquivo biblioteca.txt nao existe. Deseja criar um novo? (S/N) "
             hFlush stdout
@@ -230,6 +231,8 @@ salvarESair livros usuarios emprestimos devolucoes esperas = do
             case map toLower resposta of
                 "s" -> salvarDados arquivo livros usuarios emprestimos devolucoes esperas
                 _   -> return ()
+            putStrLn "See you Space Cowboy..."        
+
 
 carregarDados :: FilePath -> IO (Either String ([Livro], [Usuario], [Emprestimo], [Devolucao], [Espera]))
 carregarDados arquivo = do
