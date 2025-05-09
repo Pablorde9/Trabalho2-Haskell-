@@ -39,7 +39,7 @@ Sistema de gerenciamento de bibliotecas desenvolvido em Haskell como trabalho ac
 🚀 Como Executar
 
 1. Clone o repositório
-git clone https://github.com/seu-usuario/Trabalho2-Haskell-.git
+git clone https://github.com/Pablorde9/Trabalho2-Haskell-.git
 cd Trabalho2-Haskell-
 
 2. Compile o projeto
