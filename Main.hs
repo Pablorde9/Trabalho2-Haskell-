@@ -45,10 +45,13 @@ menu = do exibirOpçoes texto
               "2 - Cadastrar usuários",
               "3 - Empréstimo e devolução",
               "4 - Relatórios",
-              "5 - Salvar e Sair"
+              "5 - Editar Livro",
+              "6 - Editar Usuário",
+              "7 - Carregar de Arquivo",
+              "8 - Salvar e Sair"
             ]
     opMin = 1
-    opMax = 5
+    opMax = 7
 
 subMenu :: [String] -> Int -> Int -> IO Int
 subMenu str min max = do
@@ -166,7 +169,7 @@ laçoSubMenu3 u l e d ep = do
 -- Relatórios submenu
 laçoSubMenu4 :: [Usuario] -> [Livro] -> [Emprestimo] -> [Devolucao] -> [Espera] -> IO ()
 laçoSubMenu4 u l e d ep = do
-    opçao <- subMenu "Menu Relatórios" 
+    opçao <- subMenu 
         ["1 - Empréstimos ativos",
          "2 - Histórico de Empréstimos por Usuário",
          "3 - Lista de Espera Completa",
@@ -174,33 +177,68 @@ laçoSubMenu4 u l e d ep = do
          "5 - Livros Emprestados",
          "0 - Voltar"] 0 5
     case opçao of
-        1 -> do 
-            putStrLn "Empréstimos ativos:"
-            print $ emprestimosAtivos e
-            laçoSubMenu4 u l e d ep
-        2 -> do 
-            matricula <- prompt "Digite a matrícula do usuário: "
-            case head (filtraPorMatricula matricula u) of
-                Just usuario -> do
-                    putStrLn $ "Histórico de empréstimos para " ++ nome usuario ++ ":"
-                    print $ historicoUsuario usuario e
-                Nothing -> putStrLn "Usuário não encontrado!"
-            laçoSubMenu4 u l e d ep
+        1 -> do putStrLn ""
+        2 -> do putStrLn ""
         3 -> do 
-            putStrLn "Lista de espera completa:"
-            print $ livrosComEspera (map (\esp -> (idLivro $ livroEsp esp, [usuarioEsp esp])) ep) l
-            laçoSubMenu4 u l e d ep
+            putStrLn ""
         4 -> do 
             putStrLn "Livros disponíveis:"
-            print $ livrosDisponiveis l e
-            laçoSubMenu4 u l e d ep
         5 -> do 
             putStrLn "Livros emprestados:"
-            print $ livrosEmprestados l e
-            laçoSubMenu4 u l e d ep
+            
         0 -> laçoMenu u l e d ep
         _ -> laçoSubMenu4 u l e d ep
+        
+laçoSubMenu5 :: [Usuario] -> [Livro] -> [Emprestimo] -> [Devolucao] -> [Espera] -> IO ()
+laçoSubMenu5 u l e d ep = do
+                          opçao <- subMenu ["1 - Editar Titulo", "2 - Editar Autor", "3 - Editar Ano", "0 - Voltar"] 0 3
+                          case opçao of
+                            1 -> do
+                                  id_livro <- prompt "Digite o id do livro"
+                                  let livro = head (filtrarPorId id_livro l)
+                                  putStrLn "Digite o nome novo do livro:"
+                                  nome_livro <- getLine
+                                  let lista_livro = alteraNome livro nome_livro l
+                                  laçoSubMenu5 u lista_livro e d ep
+                            2 -> do
+                                  id_livro <- prompt "Digite o id do livro"
+                                  let livro = head (filtrarPorId id_livro l)
+                                  putStrLn "Digite o autor novo do livro:"
+                                  autor_livro <- getLine
+                                  let lista_livro = alteraAutor livro autor_livro l
+                                  laçoSubMenu5 u lista_livro e d ep
+                            3 -> do
+                                  id_livro <- prompt "Digite o id do livro"
+                                  let livro = head (filtrarPorId id_livro l)
+                                  putStrLn "Digite o ano novo do livro: "
+                                  anoStr <- getLine
+                                  let ano = read anoStr :: Integer
+                                  let lista_livro = alteraAno livro ano l
+                                  laçoSubMenu5 u lista_livro e d ep
+                            _ -> laçoMenu u l e d ep
 
+
+laçoSubMenu6 :: [Usuario] -> [Livro] -> [Emprestimo] -> [Devolucao] -> [Espera] -> IO ()
+laçoSubMenu6 u l e d ep = do
+                          opçao <- subMenu ["1 - Editar Nome", "2 - Editar Email", "0 - Voltar"] 0 2
+                          case opçao of
+                            1 -> do
+                                  putStrLn "Digite a matricula do usuário: "
+                                  matricula <- getLine
+                                  let usuario = head (filtraPorMatricula matricula u)
+                                  putStrLn "Digite o nome novo do usuario:"
+                                  nome_usuario <- getLine
+                                  let lista_usuario = alteraNomeU usuario nome_usuario u
+                                  laçoSubMenu6 lista_usuario l e d ep
+                            2 -> do
+                                  putStrLn "Digite a matricula do usuário: "
+                                  matricula <- getLine
+                                  let usuario = head (filtraPorMatricula matricula u)
+                                  putStrLn "Digite o email novo do usuario:"
+                                  email_usuario <- getLine
+                                  let lista_usuario = alteraEmail usuario email_usuario u
+                                  laçoSubMenu6 lista_usuario l e d ep
+                            _ -> laçoMenu u l e d ep
 
 laçoMenu :: [Usuario] -> [Livro] -> [Emprestimo] -> [Devolucao] -> [Espera] -> IO ()
 laçoMenu  u l e d ep = do
@@ -210,7 +248,8 @@ laçoMenu  u l e d ep = do
                            2 -> laçoSubMenu2 u l e d ep
                            3 -> laçoSubMenu3 u l e d ep
                            4 -> laçoSubMenu4 u l e d ep
-                           5 -> laçoSubMenu1 u l e d ep
-                           6 -> laçoSubMenu1 u l e d ep
-                           7 -> laçoSubMenu1 u l e d ep
+                           5 -> laçoSubMenu5 u l e d ep
+                           6 -> laçoSubMenu6 u l e d ep
+                           7 -> laçoSubMenu6 u l e d ep
+                           8 -> laçoSubMenu6 u l e d ep
                        
