@@ -5,6 +5,7 @@ import Tipos
 import Usuarios
 import Relatorios
 import Emprestimos
+import Persistencia
 import System.IO
 
 
@@ -51,7 +52,7 @@ menu = do exibirOpçoes texto
               "8 - Salvar e Sair"
             ]
     opMin = 1
-    opMax = 7
+    opMax = 8
 
 subMenu :: [String] -> Int -> Int -> IO Int
 subMenu str min max = do
@@ -266,6 +267,13 @@ laçoSubMenu6 u l e d ep = do
                                   putStrLn "Email alterado com sucesso!"
                                   laçoSubMenu6 lista_usuario l e d ep
                             _ -> laçoMenu u l e d ep
+                            
+laçoSubMenu7 :: [Usuario] -> [Livro] -> [Emprestimo] -> [Devolucao] -> [Espera] -> IO ()
+laçoSubMenu7 u l e d ep = do
+                         (l_carregado, u_carregado, e_carregado, d_carregado, ep_carregado) <- carregarDados "biblioteca.txt"
+                         putStrLn "Dados Carregados!"
+                         laçoMenu u_carregado l_carregado e_carregado d_carregado ep_carregado
+
 
 laçoMenu :: [Usuario] -> [Livro] -> [Emprestimo] -> [Devolucao] -> [Espera] -> IO ()
 laçoMenu  u l e d ep = do
@@ -277,6 +285,6 @@ laçoMenu  u l e d ep = do
                            4 -> laçoSubMenu4 u l e d ep
                            5 -> laçoSubMenu5 u l e d ep
                            6 -> laçoSubMenu6 u l e d ep
-                           7 -> laçoSubMenu6 u l e d ep
-                           8 -> laçoSubMenu6 u l e d ep
+                           7 -> laçoSubMenu7 u l e d ep
+                           8 -> salvarESair l u e d ep
                        
