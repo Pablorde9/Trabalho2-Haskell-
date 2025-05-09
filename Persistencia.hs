@@ -195,18 +195,41 @@ boolValido s = case map toLower s of
 
 salvarDados :: FilePath -> [Livro] -> [Usuario] -> [Emprestimo] -> [Devolucao] -> [Espera] -> IO ()
 salvarDados arquivo livros usuarios emprestimos devolucoes esperas = do
-    let conteudo = unlines $
-            ["-- LIVROS --"] ++
-            map livroParaString livros ++
-            ["-- USUARIOS --"] ++
-            map usuarioParaString usuarios ++
-            ["-- EMPRESTIMOS --"] ++
-            map emprestimoParaString emprestimos ++
-            ["-- DEVOLUCOES --"] ++
-            map devolucaoParaString devolucoes ++
-            ["-- ESPERAS --"] ++
-            map esperaParaString esperas
-    writeFile arquivo conteudo
+    handle <- openFile arquivo WriteMode
+    hSetEncoding handle utf8  -- Corrige o erro de codificação
+    hPutStr handle $ unlines $
+        ["-- LIVROS --"] ++
+        map livroParaString livros ++
+        ["-- USUARIOS --"] ++
+        map usuarioParaString usuarios ++
+        ["-- EMPRESTIMOS --"] ++
+        map emprestimoParaString emprestimos ++
+        ["-- DEVOLUCOES --"] ++
+        map devolucaoParaString devolucoes ++
+        ["-- ESPERAS --"] ++
+        map esperaParaString esperas
+    hClose handle
+
+salvarESair :: [Livro] -> [Usuario] -> [Emprestimo] -> [Devolucao] -> [Espera] -> IO ()
+salvarESair livros usuarios emprestimos devolucoes esperas = do
+    let arquivo = "biblioteca.txt"
+    existe <- doesFileExist arquivo
+    
+    if existe
+        then do
+            putStr "Arquivo biblioteca.txt ja existe. Deseja sobrescreve-lo? (S/N) "
+            hFlush stdout
+            resposta <- getLine
+            case map toLower resposta of
+                "s" -> salvarDados arquivo livros usuarios emprestimos devolucoes esperas
+                _   -> return ()
+        else do
+            putStr "O arquivo biblioteca.txt nao existe. Deseja criar um novo? (S/N) "
+            hFlush stdout
+            resposta <- getLine
+            case map toLower resposta of
+                "s" -> salvarDados arquivo livros usuarios emprestimos devolucoes esperas
+                _   -> return ()
 
 carregarDados :: FilePath -> IO (Either String ([Livro], [Usuario], [Emprestimo], [Devolucao], [Espera]))
 carregarDados arquivo = do
