@@ -67,3 +67,10 @@ ordenarPorNome = sortOn nome
 ordenarPorMatricula :: [Usuario] -> [Usuario]
 ordenarPorMatricula = sortOn matricula
 
+alteraNomeU :: Usuario -> String -> [Usuario] -> [Usuario]
+alteraNomeU _ _ [] = []
+alteraNomeU alvo novo_nome lista_usuarios = map (\u -> if u == alvo then u { nome = novo_nome } else u) lista_usuarios
+
+alteraEmail :: Usuario -> String -> [Usuario] -> [Usuario]
+alteraEmail _ _ [] = []
+alteraEmail alvo novo_email lista_usuarios = map (\u -> if u == alvo then u { email = novo_email } else u) lista_usuarios
