@@ -109,7 +109,7 @@ laçoSubMenu2  u l e d ep = do
 
 laçoSubMenu3 :: [Usuario] -> [Livro] -> [Emprestimo] -> [Devolucao] -> [Espera] -> IO ()
 laçoSubMenu3 u l e d ep = do
-                            opçao <- subMenu ["1 - Registrar empréstimos", "2 - Registrar devoluções", "3 - Listar livros emprestados e disponíveis", "4 - Lista de Espera", "0 - Voltar"] 0 3
+                            opçao <- subMenu ["1 - Registrar empréstimos", "2 - Registrar devoluções", "3 - Listar livros emprestados e disponíveis", "4 - Lista de Espera", "5 - Atualizar Lista de Espera ", "0 - Voltar"] 0 5
                             case opçao of
                               1 -> do dia <- prompt "Digite o dia: "
                                       mes <- prompt "Digite o mes: "
@@ -163,11 +163,20 @@ laçoSubMenu3 u l e d ep = do
                                    putStrLn (unlines (map show livros_disponiveis))
                                    laçoSubMenu3 u l e d ep
                               4 -> do 
-                                   id_livro <- prompt "Digite o id do livro"
+                                   id_livro <- prompt "Digite o id do livro: "
                                    let livro = head (filtrarPorId id_livro l)
                                    let espera_livro = filtraEsperaPorLivro livro ep
                                    putStrLn (unlines (map show espera_livro))
                                    laçoSubMenu3 u l e d ep
+                              5 -> do
+                                   id_livro <- prompt "Digite o id do livro: "
+                                   let livro = head (filtrarPorId id_livro l)
+                                   putStrLn "Digite a matricula do usuario:"
+                                   matricula_str <- getLine
+                                   let usuario = head (filtraPorMatricula matricula_str u)
+                                   let ep_novo = atualizaEspera usuario livro ep
+                                   putStrLn "Lista atualizada!"
+                                   laçoSubMenu3 u  l e d ep_novo
                               _ -> laçoMenu u l e d ep
                               
 laçoSubMenu4 :: [Usuario] -> [Livro] -> [Emprestimo] -> [Devolucao] -> [Espera] -> IO ()

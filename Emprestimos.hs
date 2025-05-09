@@ -78,3 +78,8 @@ registrarDevolucao livro usuario data_devolucao lista_devolucoes = lista_devoluc
 marcarDevolvido :: Emprestimo -> [Emprestimo] -> [Emprestimo]
 marcarDevolvido _ [] = []
 marcarDevolvido alvo lista_emprestimos = map (\e -> if e == alvo then e { devolvido = True } else e) lista_emprestimos
+
+
+-- retira a primeira instancia de um livro da lista de espera
+atualizaEspera :: Usuario -> Livro -> [Espera] -> [Espera]
+atualizaEspera alvo_usuario alvo_livro lista_espera = foldl (\ lv e -> if e == (Espera alvo_usuario alvo_livro) then lv else lv ++ [e]) [] lista_espera
