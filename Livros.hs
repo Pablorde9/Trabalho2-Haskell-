@@ -56,3 +56,16 @@ filtrarPorTitulo tituloBusca = filter (\livro -> titulo livro == tituloBusca)
 -- Filtra livros pelo id
 filtrarPorId :: Int -> [Livro] -> [Livro]
 filtrarPorId id = filter (\l -> idLivro l == id)
+
+alteraNome :: Livro -> String -> [Livro] -> [Livro]
+alteraNome _ _ [] = []
+alteraNome alvo novo_titulo lista_livros = map (\l -> if l == alvo then l { titulo = novo_titulo } else l) lista_livros
+
+alteraAutor :: Livro -> String -> [Livro] -> [Livro]
+alteraAutor _ _ [] = []
+alteraAutor alvo novo_autor lista_livros = map (\l -> if l == alvo then l { autor = novo_autor } else l) lista_livros
+
+alteraAno :: Livro -> Integer -> [Livro] -> [Livro]
+alteraAno _ _ [] = []
+alteraAno alvo novo_ano lista_livros = map (\l -> if l == alvo then l { ano = novo_ano } else l) lista_livros
+
