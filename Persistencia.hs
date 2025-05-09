@@ -1,5 +1,8 @@
 module Persistencia where
 
+
+import System.Directory (doesFileExist)
+import System.IO
 import Data.Char (toLower)
 import Data.List (intercalate)
 import Usuarios
