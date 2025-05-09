@@ -10,7 +10,9 @@ import System.IO
 
 
 main :: IO ()
-main = laçoMenu [] [] [] [] []
+main = do
+       hSetBuffering stdout NoBuffering
+       laçoMenu [] [] [] [] []
 
 exibirOpçoes :: [String] -> IO ()
 exibirOpçoes opçoes = do
@@ -42,8 +44,8 @@ menu :: IO Int
 menu = do exibirOpçoes texto
           lerOpçao opMin opMax
   where
-    texto = [ "1 - Cadastrar livros",
-              "2 - Cadastrar usuários",
+    texto = [ "1 - Livros",
+              "2 - Usuários",
               "3 - Empréstimo e devolução",
               "4 - Relatórios",
               "5 - Editar Livro",

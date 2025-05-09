@@ -1,0 +1,15 @@
+-- LIVROS --
+1/Dom Quixote/Miguel de Cervantes/1605
+2/1984/George Orwell/1949
+3/O Senhor dos Aneis/J.R.R. Tolkien/1954
+-- USUARIOS --
+2023A001/Joao Silva/joao@email.com
+20230B02/Maria Souza/maria@email.com
+-- EMPRESTIMOS --
+2023-4-15/1/2023A001/false
+2023-5-20/2/20230B02/true
+-- DEVOLUCOES --
+2023-5-25/2/20230B02
+-- ESPERAS --
+3/2023A001
+1/20230B02
