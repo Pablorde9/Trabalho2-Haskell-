@@ -166,26 +166,48 @@ laçoSubMenu3 u l e d ep = do
                                    putStrLn (unlines (map show espera_livro))
                                    laçoSubMenu3 u l e d ep
                               _ -> laçoMenu u l e d ep
--- Relatórios submenu
+                              
 laçoSubMenu4 :: [Usuario] -> [Livro] -> [Emprestimo] -> [Devolucao] -> [Espera] -> IO ()
 laçoSubMenu4 u l e d ep = do
-    opçao <- subMenu 
-        ["1 - Empréstimos ativos",
-         "2 - Histórico de Empréstimos por Usuário",
-         "3 - Lista de Espera Completa",
-         "4 - Livros Disponíveis",
-         "5 - Livros Emprestados",
-         "0 - Voltar"] 0 5
+    opçao <- subMenu ["1 - Empréstimos ativos",
+                     "2 - Histórico de Empréstimos por Usuário",
+                     "3 - Lista de Espera Completa",
+                     "4 - Livros Disponíveis",
+                     "5 - Livros Emprestados",
+                     "0 - Voltar"] 0 5
     case opçao of
-        1 -> do putStrLn ""
-        2 -> do putStrLn ""
-        3 -> do 
-            putStrLn ""
-        4 -> do 
+        1 -> do
+            putStrLn "Empréstimos ativos:"
+            print (emprestimosAtivos e)
+            laçoSubMenu4 u l e d ep
+        2 -> do
+            putStrLn "Digite a matrícula do usuário: "
+            mat <- getLine
+            let usuariosEncontrados = filtraPorMatricula mat u
+            if null usuariosEncontrados
+                then putStrLn "Usuário não encontrado!"
+                else do
+                    let usuario = head usuariosEncontrados
+                    putStrLn ("Histórico do usuário" ++ nome usuario)
+                    print (historicoUsuario usuario e)
+            laçoSubMenu4 u l e d ep
+        3 -> do
+            putStrLn "Lista de espera completa:"
+            let listaEspera = [(idLivro (livroEsp esp), [usuarioEsp esp]) | esp <- ep]
+            if null listaEspera
+                then putStrLn "Nenhum livro com lista de espera."
+                else case livrosComEspera listaEspera l of
+                    [] -> putStrLn "Nenhum livro válido na lista de espera."
+                    livros -> mapM_ print livros
+            laçoSubMenu4 u l e d ep
+        4 -> do
             putStrLn "Livros disponíveis:"
-        5 -> do 
+            print (livrosDisponiveis l e)
+            laçoSubMenu4 u l e d ep
+        5 -> do
             putStrLn "Livros emprestados:"
-            
+            print (livrosEmprestados l e)
+            laçoSubMenu4 u l e d ep
         0 -> laçoMenu u l e d ep
         _ -> laçoSubMenu4 u l e d ep
         
@@ -199,6 +221,7 @@ laçoSubMenu5 u l e d ep = do
                                   putStrLn "Digite o nome novo do livro:"
                                   nome_livro <- getLine
                                   let lista_livro = alteraNome livro nome_livro l
+                                  putStrLn "Nome alterado com sucesso!"
                                   laçoSubMenu5 u lista_livro e d ep
                             2 -> do
                                   id_livro <- prompt "Digite o id do livro"
@@ -206,6 +229,7 @@ laçoSubMenu5 u l e d ep = do
                                   putStrLn "Digite o autor novo do livro:"
                                   autor_livro <- getLine
                                   let lista_livro = alteraAutor livro autor_livro l
+                                  putStrLn "Autor alterado com sucesso!"
                                   laçoSubMenu5 u lista_livro e d ep
                             3 -> do
                                   id_livro <- prompt "Digite o id do livro"
@@ -214,6 +238,7 @@ laçoSubMenu5 u l e d ep = do
                                   anoStr <- getLine
                                   let ano = read anoStr :: Integer
                                   let lista_livro = alteraAno livro ano l
+                                  putStrLn "Ano alterado com sucesso!"
                                   laçoSubMenu5 u lista_livro e d ep
                             _ -> laçoMenu u l e d ep
 
@@ -229,6 +254,7 @@ laçoSubMenu6 u l e d ep = do
                                   putStrLn "Digite o nome novo do usuario:"
                                   nome_usuario <- getLine
                                   let lista_usuario = alteraNomeU usuario nome_usuario u
+                                  putStrLn "Nome alterado com sucesso!"
                                   laçoSubMenu6 lista_usuario l e d ep
                             2 -> do
                                   putStrLn "Digite a matricula do usuário: "
@@ -237,6 +263,7 @@ laçoSubMenu6 u l e d ep = do
                                   putStrLn "Digite o email novo do usuario:"
                                   email_usuario <- getLine
                                   let lista_usuario = alteraEmail usuario email_usuario u
+                                  putStrLn "Email alterado com sucesso!"
                                   laçoSubMenu6 lista_usuario l e d ep
                             _ -> laçoMenu u l e d ep
 
