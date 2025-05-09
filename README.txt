@@ -39,16 +39,13 @@ Sistema de gerenciamento de bibliotecas desenvolvido em Haskell como trabalho ac
 🚀 Como Executar
 
 1. Clone o repositório
-git clone https://github.com/seu-usuario/biblioteca-haskell.git
-cd biblioteca-haskell
+git clone https://github.com/seu-usuario/Trabalho2-Haskell-.git
+cd Trabalho2-Haskell-
 
-2. Instale as dependências
-cabal install --lib directory
-
-3. Compile o projeto
+2. Compile o projeto
 ghc --make Main.hs -o biblioteca
 
-4. Execute o programa
+3. Execute o programa
 ./biblioteca
 
 📂 Estrutura de Arquivos
